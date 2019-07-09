@@ -20,7 +20,8 @@ export default class ClusteredMapView extends PureComponent {
     this.state = {
       data: [], // helds renderable clusters and markers
       region: props.region || props.initialRegion, // helds current map region
-      isMapReady: false
+      isMapReady: false,
+      isMapLayout: false
     };
 
     this.isAndroid = Platform.OS === "android";
@@ -131,22 +132,26 @@ export default class ClusteredMapView extends PureComponent {
   }
 
   onMapLayout = () => {
+    this.setState({ isMapLayout: true });
+  };
+  onMapReady = () => {
     this.setState({ isMapReady: true });
   };
 
   render() {
-    const { isMapReady } = this.state;
+    const { isMapReady, isMapLayout } = this.state;
     const { style, ...props } = this.props;
-
+    const mapReady = isMapReady && isMapLayout;
     return (
       <MapView
         {...props}
         style={style}
         ref={this.mapRef}
         onLayout={this.onMapLayout}
+        onMapReady={this.onMapReady}
         onRegionChangeComplete={this.onRegionChangeComplete}
       >
-        {isMapReady &&
+        {mapReady &&
           this.props.clusteringEnabled &&
           this.state.data.map(d => {
             if (d.properties.point_count === 0)
@@ -161,10 +166,10 @@ export default class ClusteredMapView extends PureComponent {
               />
             );
           })}
-        {isMapReady &&
+        {mapReady &&
           !this.props.clusteringEnabled &&
           this.props.data.map(d => this.props.renderMarker(d))}
-        {isMapReady && this.props.children}
+        {mapReady && this.props.children}
       </MapView>
     );
   }
