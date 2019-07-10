@@ -3,7 +3,12 @@
 // base libs
 import PropTypes from "prop-types";
 import React, { PureComponent } from "react";
-import { Platform, Dimensions, LayoutAnimation } from "react-native";
+import {
+  Platform,
+  Dimensions,
+  LayoutAnimation,
+  StyleSheet
+} from "react-native";
 // map-related libs
 import { MapView } from "expo";
 import SuperCluster from "supercluster";
