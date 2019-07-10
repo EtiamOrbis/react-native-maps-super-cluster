@@ -131,7 +131,7 @@ export default class ClusteredMapView extends PureComponent {
       markers = children.map(c => c.properties.item);
 
     // fit right around them, considering edge padding
-    this.mapview.fitToCoordinates(markers.map(m => m.location), {
+    this.mapview.fitToCoordinates(markers.map(m => m?.location), {
       edgePadding: this.props.edgePadding
     });
 
@@ -140,10 +140,16 @@ export default class ClusteredMapView extends PureComponent {
   }
 
   onMapLayout = () => {
-    this.setState({ isMapLayout: true });
+    setTimeout(() => {
+      this.setState({ isMapLayout: true });
+      this.props.onLayout();
+    }, 3000);
   };
   onMapReady = () => {
-    this.setState({ isMapReady: true });
+    setTimeout(() => {
+      this.setState({ isMapReady: true });
+      this.props.onMapReady();
+    }, 3000);
   };
 
   render() {
