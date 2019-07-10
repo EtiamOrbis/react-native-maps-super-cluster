@@ -13,6 +13,9 @@ import ClusterMarker from "./ClusterMarker";
 // libs / utils
 import { regionToBoundingBox, itemToGeoJSONFeature } from "./util";
 
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
+
 export default class ClusteredMapView extends PureComponent {
   constructor(props) {
     super(props);
@@ -145,7 +148,7 @@ export default class ClusteredMapView extends PureComponent {
     return (
       <MapView
         {...props}
-        style={style}
+        style={[styles.container, style]}
         ref={this.mapRef}
         onLayout={this.onMapLayout}
         onMapReady={this.onMapReady}
@@ -174,6 +177,14 @@ export default class ClusteredMapView extends PureComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width,
+    height,
+    flex: 1
+  }
+});
 
 ClusteredMapView.defaultProps = {
   minZoom: 1,
